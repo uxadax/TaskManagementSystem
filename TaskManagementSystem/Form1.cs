@@ -47,7 +47,7 @@ namespace TaskManagementSystem
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fehler beim Hinzufügen der Aufgabe: " + ex.Message);
+                MessageBox.Show($"Fehler beim Hinzufügen der Aufgabe: {ex.Message}\n\nDetails:\n{ex.InnerException?.Message}");
             }
         }
 

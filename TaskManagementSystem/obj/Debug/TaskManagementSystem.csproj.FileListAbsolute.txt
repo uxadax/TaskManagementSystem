@@ -14,3 +14,4 @@ C:\Users\Test\source\repos\TaskManagementSystem\TaskManagementSystem\obj\Debug\T
 C:\Users\Test\source\repos\TaskManagementSystem\TaskManagementSystem\obj\Debug\TaskManagementSystem.pdb
 C:\Users\Test\source\repos\TaskManagementSystem\TaskManagementSystem\obj\Debug\TaskManagementSystem.InitialCreate.resources
 C:\Users\Test\source\repos\TaskManagementSystem\TaskManagementSystem\obj\Debug\TaskManagementSystem.Migrations.InitialMigration.resources
+C:\Users\Test\source\repos\TaskManagementSystem\TaskManagementSystem\obj\Debug\TaskManagementSystem.Migrations.UpdateTaskUserRelation.resources

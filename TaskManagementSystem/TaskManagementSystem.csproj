@@ -73,6 +73,10 @@
     <Compile Include="Migrations\202409261716060_InitialMigration.Designer.cs">
       <DependentUpon>202409261716060_InitialMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202409281055110_UpdateTaskUserRelation.cs" />
+    <Compile Include="Migrations\202409281055110_UpdateTaskUserRelation.Designer.cs">
+      <DependentUpon>202409281055110_UpdateTaskUserRelation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\User.cs" />
@@ -83,6 +87,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202409261716060_InitialMigration.resx">
       <DependentUpon>202409261716060_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409281055110_UpdateTaskUserRelation.resx">
+      <DependentUpon>202409281055110_UpdateTaskUserRelation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
