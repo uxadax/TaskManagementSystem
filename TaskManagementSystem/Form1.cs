@@ -22,8 +22,8 @@ namespace TaskManagementSystem
         // Lädt alle Aufgaben aus der Datenbank und zeigt sie im DataGridView an
         private void LoadTasks()
         {
-            List<Task> tasks = _taskRepository.GetTasks();
-            dataGridViewTasks.DataSource = tasks;
+            var taskViewModels = _taskRepository.GetTaskViewModels();  // Verwende die angepasste ViewModel-Liste
+            dataGridViewTasks.DataSource = taskViewModels;
         }
 
         // Aufgabe hinzufügen
@@ -47,7 +47,7 @@ namespace TaskManagementSystem
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Fehler beim Hinzufügen der Aufgabe: {ex.Message}\n\nDetails:\n{ex.InnerException?.Message}");
+                MessageBox.Show($"Fehler beim Hinzufügen der Aufgabe: {ex.Message}\n\nDetails:\n{ex.InnerException?.Message}\n\nStapelüberwachung:\n{ex.StackTrace}");
             }
         }
 

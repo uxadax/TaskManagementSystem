@@ -18,6 +18,21 @@ namespace TaskManagementSystem.DataAccess
             return _context.Tasks.ToList();
         }
 
+        // Neue Methode für das TaskViewModel, um Daten im DataGridView anzuzeigen
+        public List<TaskViewModel> GetTaskViewModels()
+        {
+            return _context.Tasks.Select(t => new TaskViewModel
+            {
+                Id = t.Id,
+                Title = t.Title,
+                Description = t.Description,
+                DueDate = t.DueDate,
+                IsCompleted = t.IsCompleted,
+                UserId = t.UserId,
+                UserName = t.User.Name  // Hier wird der Name des Benutzers angezeigt
+            }).ToList();
+        }
+
         public void AddTask(Task task)
         {
             _context.Tasks.Add(task);
