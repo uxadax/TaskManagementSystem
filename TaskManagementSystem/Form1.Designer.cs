@@ -19,8 +19,6 @@
             base.Dispose(disposing);
         }
 
-        #region Vom Windows Form-Designer generierter Code
-
         private void InitializeComponent()
         {
             this.dataGridViewTasks = new System.Windows.Forms.DataGridView();
@@ -99,7 +97,5 @@
             this.ResumeLayout(false);
             this.PerformLayout();
         }
-
-        #endregion
     }
 }

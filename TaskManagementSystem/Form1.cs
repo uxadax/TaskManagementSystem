@@ -9,11 +9,13 @@ namespace TaskManagementSystem
     public partial class Form1 : Form
     {
         private TaskRepository _taskRepository;
+        private UserRepository _userRepository;
 
         public Form1()
         {
             InitializeComponent();
             _taskRepository = new TaskRepository();
+            _userRepository = new UserRepository();
             LoadTasks();
         }
 
@@ -27,7 +29,6 @@ namespace TaskManagementSystem
         // Aufgabe hinzufügen
         private void buttonAddTask_Click(object sender, EventArgs e)
         {
-            // Verwende eine UserId, die bereits in der Datenbank existiert
             int existingUserId = 1;  // Setze hier eine gültige UserId
 
             Task task = new Task
@@ -39,8 +40,15 @@ namespace TaskManagementSystem
                 UserId = existingUserId  // Setze hier eine gültige UserId
             };
 
-            _taskRepository.AddTask(task);
-            LoadTasks();  // Aktualisiere die Liste nach dem Hinzufügen
+            try
+            {
+                _taskRepository.AddTask(task);
+                LoadTasks();  // Aktualisiere die Liste nach dem Hinzufügen
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler beim Hinzufügen der Aufgabe: " + ex.Message);
+            }
         }
 
         // Aufgabe ändern
