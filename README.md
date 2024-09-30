@@ -1,7 +1,3 @@
-Hier ist die vollständige README-Datei im Markdown-Format, die du in dein GitHub-Repository einfügen kannst:
-
----
-
 # TaskManagementSystem
 
 Ein einfaches Task-Management-System, das es ermöglicht, Aufgaben (Tasks) zu erstellen, anzuzeigen, zu aktualisieren und zu löschen sowie Benutzer (Users) zu verwalten. Das System nutzt eine relationale Datenbank zur Speicherung der Informationen und bietet eine Windows Forms-Benutzeroberfläche zur Interaktion.
