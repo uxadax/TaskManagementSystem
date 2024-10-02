@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddTaskViewModel : DbMigration
+    public partial class InitialCreate1 : DbMigration
     {
         public override void Up()
         {

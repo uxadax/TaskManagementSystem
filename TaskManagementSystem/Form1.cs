@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using TaskManagementSystem.Models;
 using TaskManagementSystem.DataAccess;
@@ -16,57 +16,70 @@ namespace TaskManagementSystem
             InitializeComponent();
             _taskRepository = new TaskRepository();
             _userRepository = new UserRepository();
+            LoadUsers();
             LoadTasks();
         }
 
-        // Lädt alle Aufgaben aus der Datenbank und zeigt sie im DataGridView an
         private void LoadTasks()
         {
-            var taskViewModels = _taskRepository.GetTaskViewModels();  // Verwende die angepasste ViewModel-Liste
+            var taskViewModels = _taskRepository.GetTaskViewModels();
             dataGridViewTasks.DataSource = taskViewModels;
         }
 
-        // Event-Handler-Methode für das Erstellen einer Aufgabe
+        private void LoadUsers()
+        {
+            var users = _userRepository.GetUsers();
+            comboBoxUsers.DataSource = users;
+            comboBoxUsers.DisplayMember = "UserName";
+            comboBoxUsers.ValueMember = "Id";
+        }
+
         private void buttonCreate_Click(object sender, EventArgs e)
         {
-            // Beispiel: Verwende die ID eines bestehenden Benutzers
-            int existingUserId = 1;
-
-            Task task = new Task
+            if (comboBoxUsers.SelectedValue != null)
             {
-                Title = textBoxTitle.Text,
-                Description = textBoxDescription.Text,
-                IsCompleted = false,
-                DueDate = DateTime.Now.AddDays(7),  // Beispiel-Datum
-                UserId = existingUserId  // Verwende eine gültige UserId
-            };
+                int selectedUserId = (int)comboBoxUsers.SelectedValue;
 
-            try
-            {
-                _taskRepository.AddTask(task);
-                LoadTasks();  // Aktualisiere die Liste nach dem Hinzufügen
+                Task task = new Task
+                {
+                    Title = textBoxTitle.Text,
+                    Description = textBoxDescription.Text,
+                    IsCompleted = false,
+                    CreateDate = DateTime.Now,  // Verwende CreateDate
+                    UserId = selectedUserId
+                };
+
+                try
+                {
+                    _taskRepository.AddTask(task);
+                    LoadTasks();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Fehler beim Hinzufügen der Aufgabe: {ex.Message}\n\nDetails:\n{ex.InnerException?.Message}\n\nStapelüberwachung:\n{ex.StackTrace}");
+                }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show($"Fehler beim Hinzufügen der Aufgabe: {ex.Message}\n\nDetails:\n{ex.InnerException?.Message}\n\nStapelüberwachung:\n{ex.StackTrace}");
+                MessageBox.Show("Bitte wählen Sie einen Benutzer aus.");
             }
         }
 
-        // Event-Handler-Methode für das Aktualisieren einer Aufgabe
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
-            if (dataGridViewTasks.SelectedRows.Count > 0)
+            if (dataGridViewTasks.SelectedRows.Count > 0 && comboBoxUsers.SelectedValue != null)
             {
                 int taskId = Convert.ToInt32(dataGridViewTasks.SelectedRows[0].Cells["Id"].Value);
                 Task task = _taskRepository.GetTasks().Find(t => t.Id == taskId);
 
                 task.Title = textBoxTitle.Text;
                 task.Description = textBoxDescription.Text;
+                task.UserId = (int)comboBoxUsers.SelectedValue;
 
                 try
                 {
                     _taskRepository.UpdateTask(task);
-                    LoadTasks();  // Aktualisiert die Liste nach dem Ändern
+                    LoadTasks();
                 }
                 catch (Exception ex)
                 {
@@ -75,11 +88,10 @@ namespace TaskManagementSystem
             }
             else
             {
-                MessageBox.Show("Bitte wählen Sie eine Aufgabe zum Ändern aus.");
+                MessageBox.Show("Bitte wählen Sie eine Aufgabe und einen Benutzer zum Ändern aus.");
             }
         }
 
-        // Event-Handler-Methode für das Löschen einer Aufgabe
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             if (dataGridViewTasks.SelectedRows.Count > 0)
@@ -88,7 +100,7 @@ namespace TaskManagementSystem
                 try
                 {
                     _taskRepository.DeleteTask(taskId);
-                    LoadTasks();  // Aktualisiert die Liste nach dem Löschen
+                    LoadTasks();
                 }
                 catch (Exception ex)
                 {

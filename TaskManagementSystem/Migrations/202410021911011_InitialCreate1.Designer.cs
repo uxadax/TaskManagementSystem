@@ -7,13 +7,13 @@ namespace TaskManagementSystem.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class UpdateTaskUserRelation : IMigrationMetadata
+    public sealed partial class InitialCreate1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UpdateTaskUserRelation));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate1));
         
         string IMigrationMetadata.Id
         {
-            get { return "202409281055110_UpdateTaskUserRelation"; }
+            get { return "202410021911011_InitialCreate1"; }
         }
         
         string IMigrationMetadata.Source
