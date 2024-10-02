@@ -26,10 +26,11 @@ namespace TaskManagementSystem
             dataGridViewTasks.DataSource = taskViewModels;
         }
 
-        // Aufgabe hinzufügen
-        private void buttonAddTask_Click(object sender, EventArgs e)
+        // Event-Handler-Methode für das Erstellen einer Aufgabe
+        private void buttonCreate_Click(object sender, EventArgs e)
         {
-            int existingUserId = 1;  // Setze hier eine gültige UserId
+            // Beispiel: Verwende die ID eines bestehenden Benutzers
+            int existingUserId = 1;
 
             Task task = new Task
             {
@@ -37,7 +38,7 @@ namespace TaskManagementSystem
                 Description = textBoxDescription.Text,
                 IsCompleted = false,
                 DueDate = DateTime.Now.AddDays(7),  // Beispiel-Datum
-                UserId = existingUserId  // Setze hier eine gültige UserId
+                UserId = existingUserId  // Verwende eine gültige UserId
             };
 
             try
@@ -51,8 +52,8 @@ namespace TaskManagementSystem
             }
         }
 
-        // Aufgabe ändern
-        private void buttonUpdateTask_Click(object sender, EventArgs e)
+        // Event-Handler-Methode für das Aktualisieren einer Aufgabe
+        private void buttonUpdate_Click(object sender, EventArgs e)
         {
             if (dataGridViewTasks.SelectedRows.Count > 0)
             {
@@ -62,8 +63,15 @@ namespace TaskManagementSystem
                 task.Title = textBoxTitle.Text;
                 task.Description = textBoxDescription.Text;
 
-                _taskRepository.UpdateTask(task);
-                LoadTasks();  // Aktualisiert die Liste nach dem Ändern
+                try
+                {
+                    _taskRepository.UpdateTask(task);
+                    LoadTasks();  // Aktualisiert die Liste nach dem Ändern
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Fehler beim Ändern der Aufgabe: {ex.Message}");
+                }
             }
             else
             {
@@ -71,14 +79,21 @@ namespace TaskManagementSystem
             }
         }
 
-        // Aufgabe löschen
-        private void buttonDeleteTask_Click(object sender, EventArgs e)
+        // Event-Handler-Methode für das Löschen einer Aufgabe
+        private void buttonDelete_Click(object sender, EventArgs e)
         {
             if (dataGridViewTasks.SelectedRows.Count > 0)
             {
                 int taskId = Convert.ToInt32(dataGridViewTasks.SelectedRows[0].Cells["Id"].Value);
-                _taskRepository.DeleteTask(taskId);
-                LoadTasks();  // Aktualisiert die Liste nach dem Löschen
+                try
+                {
+                    _taskRepository.DeleteTask(taskId);
+                    LoadTasks();  // Aktualisiert die Liste nach dem Löschen
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Fehler beim Löschen der Aufgabe: {ex.Message}");
+                }
             }
             else
             {
