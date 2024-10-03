@@ -6,7 +6,7 @@ namespace TaskManagementSystem.DataAccess
 {
     public class TaskRepository
     {
-        private readonly AppDbContext _context;
+        private AppDbContext _context;
 
         public TaskRepository()
         {
@@ -25,10 +25,10 @@ namespace TaskManagementSystem.DataAccess
                 Id = t.Id,
                 Title = t.Title,
                 Description = t.Description,
-                CreateDate = t.CreateDate,  // Verwende CreateDate anstelle von DueDate
+                CreateDate = t.CreateDate,  // CreateDate verwenden
                 IsCompleted = t.IsCompleted,
                 UserId = t.UserId,
-                UserName = t.User.UserName  // Korrekte Referenz auf den Benutzernamen
+                UserName = t.User.UserName  // Benutzername anzeigen
             }).ToList();
         }
 
@@ -50,7 +50,7 @@ namespace TaskManagementSystem.DataAccess
 
         public void DeleteTask(int taskId)
         {
-            var task = _context.Tasks.Find(taskId);
+            var task = _context.Tasks.FirstOrDefault(t => t.Id == taskId);
             if (task != null)
             {
                 _context.Tasks.Remove(task);

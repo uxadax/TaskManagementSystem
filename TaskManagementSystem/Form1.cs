@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using TaskManagementSystem.Models;
@@ -20,12 +21,14 @@ namespace TaskManagementSystem
             LoadTasks();
         }
 
+        // Lädt alle Aufgaben aus der Datenbank und zeigt sie im DataGridView an
         private void LoadTasks()
         {
             var taskViewModels = _taskRepository.GetTaskViewModels();
             dataGridViewTasks.DataSource = taskViewModels;
         }
 
+        // Lädt alle Benutzer aus der Datenbank und fügt sie in die ComboBox ein
         private void LoadUsers()
         {
             var users = _userRepository.GetUsers();
@@ -34,6 +37,7 @@ namespace TaskManagementSystem
             comboBoxUsers.ValueMember = "Id";
         }
 
+        // Event-Handler-Methode für das Erstellen einer Aufgabe
         private void buttonCreate_Click(object sender, EventArgs e)
         {
             if (comboBoxUsers.SelectedValue != null)
@@ -45,14 +49,14 @@ namespace TaskManagementSystem
                     Title = textBoxTitle.Text,
                     Description = textBoxDescription.Text,
                     IsCompleted = false,
-                    CreateDate = DateTime.Now,  // Verwende CreateDate
+                    CreateDate = DateTime.Now,  // Neuer Name für das Feld
                     UserId = selectedUserId
                 };
 
                 try
                 {
                     _taskRepository.AddTask(task);
-                    LoadTasks();
+                    LoadTasks();  // Aktualisiere die Liste nach dem Hinzufügen
                 }
                 catch (Exception ex)
                 {
@@ -65,6 +69,7 @@ namespace TaskManagementSystem
             }
         }
 
+        // Event-Handler-Methode für das Aktualisieren einer Aufgabe
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
             if (dataGridViewTasks.SelectedRows.Count > 0 && comboBoxUsers.SelectedValue != null)
@@ -79,7 +84,7 @@ namespace TaskManagementSystem
                 try
                 {
                     _taskRepository.UpdateTask(task);
-                    LoadTasks();
+                    LoadTasks();  // Aktualisiert die Liste nach dem Ändern
                 }
                 catch (Exception ex)
                 {
@@ -92,6 +97,7 @@ namespace TaskManagementSystem
             }
         }
 
+        // Event-Handler-Methode für das Löschen einer Aufgabe
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             if (dataGridViewTasks.SelectedRows.Count > 0)
@@ -100,7 +106,7 @@ namespace TaskManagementSystem
                 try
                 {
                     _taskRepository.DeleteTask(taskId);
-                    LoadTasks();
+                    LoadTasks();  // Aktualisiert die Liste nach dem Löschen
                 }
                 catch (Exception ex)
                 {
@@ -110,6 +116,58 @@ namespace TaskManagementSystem
             else
             {
                 MessageBox.Show("Bitte wählen Sie eine Aufgabe zum Löschen aus.");
+            }
+        }
+
+        // Event-Handler-Methode für das Hinzufügen eines neuen Benutzers
+        private void buttonAddUser_Click(object sender, EventArgs e)
+        {
+            string userName = textBoxNewUser.Text;
+
+            if (!string.IsNullOrEmpty(userName))
+            {
+                User newUser = new User
+                {
+                    UserName = userName
+                };
+
+                try
+                {
+                    _userRepository.AddUser(newUser);
+                    LoadUsers();  // Benutzerliste nach dem Hinzufügen aktualisieren
+                    textBoxNewUser.Text = string.Empty;  // Eingabefeld leeren
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Fehler beim Hinzufügen des Benutzers: {ex.Message}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Bitte geben Sie einen Benutzernamen ein.");
+            }
+        }
+
+        // Event-Handler-Methode für das Löschen eines Benutzers
+        private void buttonDeleteUser_Click(object sender, EventArgs e)
+        {
+            if (comboBoxUsers.SelectedValue != null)
+            {
+                int selectedUserId = (int)comboBoxUsers.SelectedValue;
+
+                try
+                {
+                    _userRepository.DeleteUser(selectedUserId);
+                    LoadUsers();  // Aktualisiere die Benutzerliste
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Fehler beim Löschen des Benutzers: {ex.Message}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Bitte wählen Sie einen Benutzer zum Löschen aus.");
             }
         }
     }

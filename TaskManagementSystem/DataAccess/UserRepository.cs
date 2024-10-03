@@ -6,7 +6,7 @@ namespace TaskManagementSystem.DataAccess
 {
     public class UserRepository
     {
-        private readonly AppDbContext _context;
+        private AppDbContext _context;
 
         public UserRepository()
         {
@@ -16,6 +16,22 @@ namespace TaskManagementSystem.DataAccess
         public List<User> GetUsers()
         {
             return _context.Users.ToList();
+        }
+
+        public void AddUser(User user)
+        {
+            _context.Users.Add(user);
+            _context.SaveChanges();
+        }
+
+        public void DeleteUser(int userId)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            if (user != null)
+            {
+                _context.Users.Remove(user);
+                _context.SaveChanges();
+            }
         }
     }
 }
