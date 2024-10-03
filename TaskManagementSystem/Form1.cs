@@ -19,6 +19,34 @@ namespace TaskManagementSystem
             _userRepository = new UserRepository();
             LoadUsers();
             LoadTasks();
+
+            // Placeholder-Text setzen
+            SetPlaceholder(textBoxTitle, "Titel eingeben...");
+            SetPlaceholder(textBoxDescription, "Beschreibung eingeben...");
+        }
+
+        private void SetPlaceholder(TextBox textBox, string placeholder)
+        {
+            textBox.Text = placeholder;
+            textBox.ForeColor = System.Drawing.Color.Gray;
+
+            textBox.GotFocus += (sender, e) =>
+            {
+                if (textBox.Text == placeholder)
+                {
+                    textBox.Text = "";
+                    textBox.ForeColor = System.Drawing.Color.Black;
+                }
+            };
+
+            textBox.LostFocus += (sender, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(textBox.Text))
+                {
+                    textBox.Text = placeholder;
+                    textBox.ForeColor = System.Drawing.Color.Gray;
+                }
+            };
         }
 
         // Lädt alle Aufgaben aus der Datenbank und zeigt sie im DataGridView an
@@ -122,20 +150,15 @@ namespace TaskManagementSystem
         // Event-Handler-Methode für das Hinzufügen eines neuen Benutzers
         private void buttonAddUser_Click(object sender, EventArgs e)
         {
-            string userName = textBoxNewUser.Text;
-
-            if (!string.IsNullOrEmpty(userName))
+            string newUserName = textBoxNewUser.Text;
+            if (!string.IsNullOrWhiteSpace(newUserName))
             {
-                User newUser = new User
-                {
-                    UserName = userName
-                };
+                User newUser = new User { UserName = newUserName };
 
                 try
                 {
                     _userRepository.AddUser(newUser);
-                    LoadUsers();  // Benutzerliste nach dem Hinzufügen aktualisieren
-                    textBoxNewUser.Text = string.Empty;  // Eingabefeld leeren
+                    LoadUsers();  // Benutzerliste neu laden
                 }
                 catch (Exception ex)
                 {
@@ -158,7 +181,7 @@ namespace TaskManagementSystem
                 try
                 {
                     _userRepository.DeleteUser(selectedUserId);
-                    LoadUsers();  // Aktualisiere die Benutzerliste
+                    LoadUsers();  // Benutzerliste neu laden
                 }
                 catch (Exception ex)
                 {

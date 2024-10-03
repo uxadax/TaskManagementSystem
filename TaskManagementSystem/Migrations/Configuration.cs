@@ -1,23 +1,26 @@
-﻿namespace TaskManagementSystem.Migrations
+﻿using TaskManagementSystem.DataAccess;
+
+namespace TaskManagementSystem.Migrations
 {
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using TaskManagementSystem.Models;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<TaskManagementSystem.DataAccess.AppDbContext>
+    public sealed class Configuration : DbMigrationsConfiguration<AppDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(TaskManagementSystem.DataAccess.AppDbContext context)
+        protected override void Seed(AppDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
-            //  to avoid creating duplicate seed data.
+            // Beispielbenutzer hinzufügen
+            if (!context.Users.Any())
+            {
+                context.Users.AddOrUpdate(new User { Id = 1, UserName = "Admin" });
+                context.SaveChanges();
+            }
         }
     }
 }

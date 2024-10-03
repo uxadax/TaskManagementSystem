@@ -8,7 +8,7 @@ namespace TaskManagementSystem.DataAccess
         public DbSet<Task> Tasks { get; set; }
         public DbSet<User> Users { get; set; }
 
-        public AppDbContext() : base("TaskManagementDB")
+        public AppDbContext() : base("name=TaskManagementSystemConnection")
         {
         }
     }

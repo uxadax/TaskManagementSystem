@@ -1,13 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace TaskManagementSystem.Models
+﻿namespace TaskManagementSystem.Models
 {
     public class User
     {
         public int Id { get; set; }
-        public string UserName { get; set; }
-
-        // Beziehung zu den Aufgaben
-        public virtual ICollection<Task> Tasks { get; set; }
+        public string UserName { get; set; }  // Angepasst von Name zu UserName, um Konflikte zu vermeiden
     }
 }

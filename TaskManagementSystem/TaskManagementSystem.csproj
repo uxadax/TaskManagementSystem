@@ -74,6 +74,9 @@
       <DependentUpon>202410021911011_InitialCreate1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\PlaceholderTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\TaskViewModel.cs" />
     <Compile Include="Models\User.cs" />
