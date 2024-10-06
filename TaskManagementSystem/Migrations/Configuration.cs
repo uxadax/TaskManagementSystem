@@ -1,12 +1,11 @@
-﻿using TaskManagementSystem.DataAccess;
+﻿using System.Data.Entity.Migrations;
+using System.Linq;
+using TaskManagementSystem.DataAccess;
+using TaskManagementSystem.Models;
 
 namespace TaskManagementSystem.Migrations
 {
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-    using TaskManagementSystem.Models;
-
-    public sealed class Configuration : DbMigrationsConfiguration<AppDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<AppDbContext>
     {
         public Configuration()
         {
@@ -15,10 +14,11 @@ namespace TaskManagementSystem.Migrations
 
         protected override void Seed(AppDbContext context)
         {
-            // Beispielbenutzer hinzufügen
             if (!context.Users.Any())
             {
-                context.Users.AddOrUpdate(new User { Id = 1, UserName = "Admin" });
+                context.Users.AddOrUpdate(
+                    new User { Id = 1, UserName = "Standard User" }  // Korrekte Eigenschaft verwenden
+                );
                 context.SaveChanges();
             }
         }

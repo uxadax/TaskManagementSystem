@@ -5,11 +5,9 @@ namespace TaskManagementSystem.DataAccess
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<Task> Tasks { get; set; }
-        public DbSet<User> Users { get; set; }
+        public AppDbContext() : base("TaskManagementDB") { }
 
-        public AppDbContext() : base("name=TaskManagementSystemConnection")
-        {
-        }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Task> Tasks { get; set; }
     }
 }

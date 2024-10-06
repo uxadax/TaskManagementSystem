@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using TaskManagementSystem.DataAccess;
@@ -37,55 +39,6 @@ namespace TaskManagementSystem
             comboBoxUsers.ValueMember = "Id";
         }
 
-        // Event-Handler-Methode für das Hinzufügen eines neuen Benutzers
-        private void buttonAddUser_Click(object sender, EventArgs e)
-        {
-            string newUserName = textBoxNewUser.Text.Trim();
-
-            if (!string.IsNullOrWhiteSpace(newUserName))
-            {
-                User newUser = new User { UserName = newUserName };
-
-                try
-                {
-                    _userRepository.AddUser(newUser);
-                    LoadUsers();  // Aktualisiere die Benutzerliste nach dem Hinzufügen
-                    textBoxNewUser.Clear();  // Eingabefeld leeren
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Fehler beim Hinzufügen des Benutzers: {ex.Message}");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Bitte geben Sie einen gültigen Benutzernamen ein.");
-            }
-        }
-
-        // Event-Handler-Methode für das Löschen eines Benutzers
-        private void buttonDeleteUser_Click(object sender, EventArgs e)
-        {
-            if (comboBoxUsers.SelectedValue != null)
-            {
-                int selectedUserId = (int)comboBoxUsers.SelectedValue;
-
-                try
-                {
-                    _userRepository.DeleteUser(selectedUserId);
-                    LoadUsers();  // Aktualisiere die Benutzerliste nach dem Löschen
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Fehler beim Löschen des Benutzers: {ex.Message}");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Bitte wählen Sie einen Benutzer aus.");
-            }
-        }
-
         // Event-Handler-Methode für das Erstellen einer Aufgabe
         private void buttonCreate_Click(object sender, EventArgs e)
         {
@@ -98,7 +51,7 @@ namespace TaskManagementSystem
                     Title = textBoxTitle.Text,
                     Description = textBoxDescription.Text,
                     IsCompleted = false,
-                    CreateDate = DateTime.Now,  // Neuer Name für das Feld
+                    CreateDate = DateTime.Now,
                     UserId = selectedUserId
                 };
 
@@ -168,58 +121,116 @@ namespace TaskManagementSystem
             }
         }
 
-        // Placeholder-Text bei "Enter" entfernen
-        private void textBoxTitle_Enter(object sender, EventArgs e)
+        // Event-Handler-Methode für das Hinzufügen eines neuen Benutzers
+        private void buttonAddUser_Click(object sender, EventArgs e)
         {
-            if (textBoxTitle.Text == "Titel eingeben")
+            if (!string.IsNullOrEmpty(textBoxNewUser.Text))
             {
-                textBoxTitle.Text = "";
-                textBoxTitle.ForeColor = System.Drawing.Color.Black;
+                User user = new User
+                {
+                    UserName = textBoxNewUser.Text
+                };
+
+                try
+                {
+                    _userRepository.AddUser(user);
+                    LoadUsers();  // Aktualisiere die Benutzerliste
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Fehler beim Hinzufügen des Benutzers: {ex.Message}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Bitte geben Sie einen Benutzernamen ein.");
             }
         }
 
-        private void textBoxTitle_Leave(object sender, EventArgs e)
+        // Event-Handler-Methode für das Löschen eines Benutzers
+        private void buttonDeleteUser_Click(object sender, EventArgs e)
         {
-            if (textBoxTitle.Text == "")
+            if (comboBoxUsers.SelectedValue != null)
             {
-                textBoxTitle.Text = "Titel eingeben";
-                textBoxTitle.ForeColor = System.Drawing.Color.Gray;
+                int userId = (int)comboBoxUsers.SelectedValue;
+                try
+                {
+                    _userRepository.DeleteUser(userId);
+                    LoadUsers();  // Aktualisiere die Benutzerliste nach dem Löschen
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Fehler beim Löschen des Benutzers: {ex.Message}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Bitte wählen Sie einen Benutzer zum Löschen aus.");
             }
         }
 
-        private void textBoxDescription_Enter(object sender, EventArgs e)
+        // Event-Handler für den Export der Aufgaben in eine CSV-Datei
+        private void buttonExportToCSV_Click(object sender, EventArgs e)
         {
-            if (textBoxDescription.Text == "Beschreibung eingeben")
+            try
             {
-                textBoxDescription.Text = "";
-                textBoxDescription.ForeColor = System.Drawing.Color.Black;
+                var taskList = _taskRepository.GetTaskViewModels();
+
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    Filter = "CSV-Datei (*.csv)|*.csv",
+                    Title = "Speichern Sie die Aufgaben als CSV-Datei",
+                    FileName = "TasksExport.csv"
+                };
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName))
+                    {
+                        // CSV Header
+                        writer.WriteLine("Id,Title,Description,CreateDate,IsCompleted,UserId,UserName");
+
+                        // CSV Content
+                        foreach (var task in taskList)
+                        {
+                            writer.WriteLine($"{task.Id},{task.Title},{task.Description},{task.CreateDate},{task.IsCompleted},{task.UserId},{task.UserName}");
+                        }
+                    }
+
+                    MessageBox.Show("Aufgaben erfolgreich als CSV exportiert.", "Export erfolgreich", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fehler beim Exportieren: {ex.Message}");
             }
         }
 
-        private void textBoxDescription_Leave(object sender, EventArgs e)
+        // Platzhaltertext entfernen, wenn das Feld angeklickt wird
+        private void TextBox_Enter(object sender, EventArgs e)
         {
-            if (textBoxDescription.Text == "")
+            TextBox textBox = sender as TextBox;
+            if (textBox != null && (textBox.Text == "Titel eingeben" || textBox.Text == "Beschreibung eingeben" || textBox.Text == "Neuen Benutzer eingeben"))
             {
-                textBoxDescription.Text = "Beschreibung eingeben";
-                textBoxDescription.ForeColor = System.Drawing.Color.Gray;
+                textBox.Text = "";
+                textBox.ForeColor = System.Drawing.Color.Black;
             }
         }
 
-        private void textBoxNewUser_Enter(object sender, EventArgs e)
+        // Platzhaltertext zurücksetzen, wenn das Feld verlassen wird und leer ist
+        private void TextBox_Leave(object sender, EventArgs e)
         {
-            if (textBoxNewUser.Text == "Neuen Benutzer eingeben")
+            TextBox textBox = sender as TextBox;
+            if (textBox != null && string.IsNullOrWhiteSpace(textBox.Text))
             {
-                textBoxNewUser.Text = "";
-                textBoxNewUser.ForeColor = System.Drawing.Color.Black;
-            }
-        }
+                if (textBox.Name == "textBoxTitle")
+                    textBox.Text = "Titel eingeben";
+                else if (textBox.Name == "textBoxDescription")
+                    textBox.Text = "Beschreibung eingeben";
+                else if (textBox.Name == "textBoxNewUser")
+                    textBox.Text = "Neuen Benutzer eingeben";
 
-        private void textBoxNewUser_Leave(object sender, EventArgs e)
-        {
-            if (textBoxNewUser.Text == "")
-            {
-                textBoxNewUser.Text = "Neuen Benutzer eingeben";
-                textBoxNewUser.ForeColor = System.Drawing.Color.Gray;
+                textBox.ForeColor = System.Drawing.Color.Gray;
             }
         }
     }
