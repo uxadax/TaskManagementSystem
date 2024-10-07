@@ -32,3 +32,5 @@ C:\Users\Test\source\repos\TaskManagementSystem\TaskManagementSystem\bin\Debug\S
 C:\Users\Test\source\repos\TaskManagementSystem\TaskManagementSystem\bin\Debug\System.Text.Json.xml
 C:\Users\Test\source\repos\TaskManagementSystem\TaskManagementSystem\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\Test\source\repos\TaskManagementSystem\TaskManagementSystem\bin\Debug\System.ValueTuple.xml
+C:\Users\Test\source\repos\TaskManagementSystem\TaskManagementSystem\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Test\source\repos\TaskManagementSystem\TaskManagementSystem\bin\Debug\Newtonsoft.Json.xml

@@ -18,20 +18,6 @@ namespace TaskManagementSystem.DataAccess
             return _context.Tasks.ToList();
         }
 
-        public List<TaskViewModel> GetTaskViewModels()
-        {
-            return _context.Tasks.Select(t => new TaskViewModel
-            {
-                Id = t.Id,
-                Title = t.Title,
-                Description = t.Description,
-                CreateDate = t.CreateDate,
-                IsCompleted = t.IsCompleted,
-                UserId = t.UserId,
-                UserName = t.User.UserName  // Hier wird auf "UserName" zugegriffen
-            }).ToList();
-        }
-
         public void AddTask(Task task)
         {
             _context.Tasks.Add(task);
@@ -48,12 +34,13 @@ namespace TaskManagementSystem.DataAccess
             }
         }
 
-        public void DeleteTask(int taskId)
+        // Verwenden Sie die Task-Instanz und nicht die ID für das Löschen.
+        public void DeleteTask(Task task)
         {
-            var task = _context.Tasks.FirstOrDefault(t => t.Id == taskId);
-            if (task != null)
+            var existingTask = _context.Tasks.Find(task.Id);
+            if (existingTask != null)
             {
-                _context.Tasks.Remove(task);
+                _context.Tasks.Remove(existingTask);
                 _context.SaveChanges();
             }
         }

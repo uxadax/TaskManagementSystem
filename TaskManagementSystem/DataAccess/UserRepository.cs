@@ -24,12 +24,13 @@ namespace TaskManagementSystem.DataAccess
             _context.SaveChanges();
         }
 
-        public void DeleteUser(int userId)
+        // Verwenden Sie die User-Instanz und nicht die ID für das Löschen.
+        public void DeleteUser(User user)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-            if (user != null)
+            var existingUser = _context.Users.Find(user.Id);
+            if (existingUser != null)
             {
-                _context.Users.Remove(user);
+                _context.Users.Remove(existingUser);
                 _context.SaveChanges();
             }
         }
