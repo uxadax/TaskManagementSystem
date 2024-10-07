@@ -32,9 +32,17 @@ namespace TaskManagementSystem
 
         private void LoadUsers()
         {
-            comboBoxUsers.DataSource = _userRepository.GetUsers();
+            var users = _userRepository.GetUsers();
+            comboBoxUsers.DataSource = users;
             comboBoxUsers.DisplayMember = "UserName";
             comboBoxUsers.ValueMember = "Id";
+
+            // Überprüfen, ob Benutzer vorhanden sind, ansonsten Textfeld leeren
+            if (users.Count == 0)
+            {
+                comboBoxUsers.Text = "";      // Text in der ComboBox leeren
+                comboBoxUsers.SelectedIndex = -1; // Auswahl auf "keine" setzen
+            }
         }
 
         private void buttonCreate_Click(object sender, EventArgs e)
@@ -106,6 +114,12 @@ namespace TaskManagementSystem
                 var selectedUser = (User)comboBoxUsers.SelectedItem;
                 _userRepository.DeleteUser(selectedUser);
                 LoadUsers();
+
+                // Überprüfen, ob nach dem Löschen keine Benutzer mehr vorhanden sind
+                if (comboBoxUsers.Items.Count == 0)
+                {
+                    comboBoxUsers.Text = ""; // Text in der ComboBox explizit leeren
+                }
             }
             else
             {
