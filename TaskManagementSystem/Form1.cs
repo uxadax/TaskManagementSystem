@@ -39,7 +39,38 @@ namespace TaskManagementSystem
             comboBoxUsers.ValueMember = "Id";
         }
 
-        // Event-Handler-Methode für das Erstellen einer Aufgabe
+        // Methode zum Hinzufügen eines neuen Benutzers
+        private void buttonAddUser_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(textBoxNewUser.Text) && textBoxNewUser.Text != "Neuen Benutzer eingeben")
+            {
+                User newUser = new User { UserName = textBoxNewUser.Text };
+                _userRepository.AddUser(newUser);
+                LoadUsers();
+                textBoxNewUser.Text = "Neuen Benutzer eingeben";  // Textbox zurücksetzen
+            }
+            else
+            {
+                MessageBox.Show("Bitte geben Sie einen gültigen Benutzernamen ein.");
+            }
+        }
+
+        // Methode zum Löschen eines Benutzers
+        private void buttonDeleteUser_Click(object sender, EventArgs e)
+        {
+            if (comboBoxUsers.SelectedValue != null)
+            {
+                int selectedUserId = (int)comboBoxUsers.SelectedValue;
+                _userRepository.DeleteUser(selectedUserId);
+                LoadUsers();
+            }
+            else
+            {
+                MessageBox.Show("Bitte wählen Sie einen Benutzer zum Löschen aus.");
+            }
+        }
+
+        // Methode zum Erstellen einer neuen Aufgabe
         private void buttonCreate_Click(object sender, EventArgs e)
         {
             if (comboBoxUsers.SelectedValue != null)
@@ -55,15 +86,8 @@ namespace TaskManagementSystem
                     UserId = selectedUserId
                 };
 
-                try
-                {
-                    _taskRepository.AddTask(task);
-                    LoadTasks();  // Aktualisiere die Liste nach dem Hinzufügen
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Fehler beim Hinzufügen der Aufgabe: {ex.Message}\n\nDetails:\n{ex.InnerException?.Message}\n\nStapelüberwachung:\n{ex.StackTrace}");
-                }
+                _taskRepository.AddTask(task);
+                LoadTasks();  // Aktualisiere die Liste nach dem Hinzufügen
             }
             else
             {
@@ -71,7 +95,7 @@ namespace TaskManagementSystem
             }
         }
 
-        // Event-Handler-Methode für das Aktualisieren einer Aufgabe
+        // Methode zum Aktualisieren einer bestehenden Aufgabe
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
             if (dataGridViewTasks.SelectedRows.Count > 0 && comboBoxUsers.SelectedValue != null)
@@ -83,15 +107,8 @@ namespace TaskManagementSystem
                 task.Description = textBoxDescription.Text;
                 task.UserId = (int)comboBoxUsers.SelectedValue;
 
-                try
-                {
-                    _taskRepository.UpdateTask(task);
-                    LoadTasks();  // Aktualisiert die Liste nach dem Ändern
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Fehler beim Ändern der Aufgabe: {ex.Message}");
-                }
+                _taskRepository.UpdateTask(task);
+                LoadTasks();  // Aktualisiert die Liste nach dem Ändern
             }
             else
             {
@@ -99,21 +116,14 @@ namespace TaskManagementSystem
             }
         }
 
-        // Event-Handler-Methode für das Löschen einer Aufgabe
+        // Methode zum Löschen einer bestehenden Aufgabe
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             if (dataGridViewTasks.SelectedRows.Count > 0)
             {
                 int taskId = Convert.ToInt32(dataGridViewTasks.SelectedRows[0].Cells["Id"].Value);
-                try
-                {
-                    _taskRepository.DeleteTask(taskId);
-                    LoadTasks();  // Aktualisiert die Liste nach dem Löschen
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Fehler beim Löschen der Aufgabe: {ex.Message}");
-                }
+                _taskRepository.DeleteTask(taskId);
+                LoadTasks();  // Aktualisiert die Liste nach dem Löschen
             }
             else
             {
@@ -121,116 +131,81 @@ namespace TaskManagementSystem
             }
         }
 
-        // Event-Handler-Methode für das Hinzufügen eines neuen Benutzers
-        private void buttonAddUser_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(textBoxNewUser.Text))
-            {
-                User user = new User
-                {
-                    UserName = textBoxNewUser.Text
-                };
-
-                try
-                {
-                    _userRepository.AddUser(user);
-                    LoadUsers();  // Aktualisiere die Benutzerliste
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Fehler beim Hinzufügen des Benutzers: {ex.Message}");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Bitte geben Sie einen Benutzernamen ein.");
-            }
-        }
-
-        // Event-Handler-Methode für das Löschen eines Benutzers
-        private void buttonDeleteUser_Click(object sender, EventArgs e)
-        {
-            if (comboBoxUsers.SelectedValue != null)
-            {
-                int userId = (int)comboBoxUsers.SelectedValue;
-                try
-                {
-                    _userRepository.DeleteUser(userId);
-                    LoadUsers();  // Aktualisiere die Benutzerliste nach dem Löschen
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Fehler beim Löschen des Benutzers: {ex.Message}");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Bitte wählen Sie einen Benutzer zum Löschen aus.");
-            }
-        }
-
-        // Event-Handler für den Export der Aufgaben in eine CSV-Datei
-        private void buttonExportToCSV_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var taskList = _taskRepository.GetTaskViewModels();
-
-                SaveFileDialog saveFileDialog = new SaveFileDialog
-                {
-                    Filter = "CSV-Datei (*.csv)|*.csv",
-                    Title = "Speichern Sie die Aufgaben als CSV-Datei",
-                    FileName = "TasksExport.csv"
-                };
-
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName))
-                    {
-                        // CSV Header
-                        writer.WriteLine("Id,Title,Description,CreateDate,IsCompleted,UserId,UserName");
-
-                        // CSV Content
-                        foreach (var task in taskList)
-                        {
-                            writer.WriteLine($"{task.Id},{task.Title},{task.Description},{task.CreateDate},{task.IsCompleted},{task.UserId},{task.UserName}");
-                        }
-                    }
-
-                    MessageBox.Show("Aufgaben erfolgreich als CSV exportiert.", "Export erfolgreich", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Fehler beim Exportieren: {ex.Message}");
-            }
-        }
-
-        // Platzhaltertext entfernen, wenn das Feld angeklickt wird
+        // Event-Methode, um Text aus den Textboxen zu entfernen, wenn der Benutzer sie anklickt
         private void TextBox_Enter(object sender, EventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-            if (textBox != null && (textBox.Text == "Titel eingeben" || textBox.Text == "Beschreibung eingeben" || textBox.Text == "Neuen Benutzer eingeben"))
+            TextBox tb = sender as TextBox;
+            if (tb != null && tb.ForeColor == System.Drawing.Color.Gray)
             {
-                textBox.Text = "";
-                textBox.ForeColor = System.Drawing.Color.Black;
+                tb.Text = "";
+                tb.ForeColor = System.Drawing.Color.Black;
             }
         }
 
-        // Platzhaltertext zurücksetzen, wenn das Feld verlassen wird und leer ist
+        // Event-Methode, um Platzhaltertext wieder anzuzeigen, wenn die Textbox leer bleibt
         private void TextBox_Leave(object sender, EventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-            if (textBox != null && string.IsNullOrWhiteSpace(textBox.Text))
+            TextBox tb = sender as TextBox;
+            if (tb != null && string.IsNullOrEmpty(tb.Text))
             {
-                if (textBox.Name == "textBoxTitle")
-                    textBox.Text = "Titel eingeben";
-                else if (textBox.Name == "textBoxDescription")
-                    textBox.Text = "Beschreibung eingeben";
-                else if (textBox.Name == "textBoxNewUser")
-                    textBox.Text = "Neuen Benutzer eingeben";
+                if (tb == textBoxTitle) tb.Text = "Titel eingeben";
+                else if (tb == textBoxDescription) tb.Text = "Beschreibung eingeben";
+                else if (tb == textBoxNewUser) tb.Text = "Neuen Benutzer eingeben";
 
-                textBox.ForeColor = System.Drawing.Color.Gray;
+                tb.ForeColor = System.Drawing.Color.Gray;
+            }
+        }
+
+        // Methode zum Exportieren der Aufgaben in eine CSV-Datei
+        private void buttonExportCSV_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "CSV files (*.csv)|*.csv";
+            saveFileDialog.Title = "Speicherort für CSV-Datei auswählen";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName))
+                {
+                    writer.WriteLine("Id,Title,Description,CreateDate,IsCompleted,UserId,UserName");
+                    foreach (TaskViewModel task in (List<TaskViewModel>)dataGridViewTasks.DataSource)
+                    {
+                        writer.WriteLine($"{task.Id},{task.Title},{task.Description},{task.CreateDate},{task.IsCompleted},{task.UserId},{task.UserName}");
+                    }
+                }
+                MessageBox.Show("CSV-Datei erfolgreich exportiert.");
+            }
+        }
+
+        // Methode zum Importieren von Aufgaben aus einer CSV-Datei
+        private void buttonImportCSV_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "CSV files (*.csv)|*.csv";
+            openFileDialog.Title = "CSV-Datei zum Importieren auswählen";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamReader reader = new StreamReader(openFileDialog.FileName))
+                {
+                    reader.ReadLine();  // Überspringe die Header-Zeile
+                    while (!reader.EndOfStream)
+                    {
+                        var line = reader.ReadLine();
+                        var values = line.Split(',');
+
+                        Task task = new Task
+                        {
+                            Title = values[1],
+                            Description = values[2],
+                            CreateDate = DateTime.Parse(values[3]),
+                            IsCompleted = bool.Parse(values[4]),
+                            UserId = int.Parse(values[5])
+                        };
+
+                        _taskRepository.AddTask(task);
+                    }
+                }
+                LoadTasks();
+                MessageBox.Show("CSV-Datei erfolgreich importiert.");
             }
         }
     }
