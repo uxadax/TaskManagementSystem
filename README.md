@@ -56,13 +56,13 @@ TaskManagementSystem/
 
 ## ⚙️ Konfiguration
 1. Öffne die Datei `App.config` und stelle sicher, dass die Verbindungszeichenfolge korrekt konfiguriert ist:
-    ```(xml)
+```(xml)
 <connectionStrings>
 <add name="TaskManagementDB"
            connectionString="Server=DESKTOP-QDJ0VMJ\SQLEXPRESS;Database=TaskManagementDB;Trusted_Connection=True;"
            providerName="System.Data.SqlClient" />
 </connectionStrings>
-    
+ ``` 
  
 2. Führe die Migrationen in der `Package Manager Console` von Visual Studio aus:
     ```(bash)
