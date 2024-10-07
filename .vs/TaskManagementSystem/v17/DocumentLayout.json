@@ -3,15 +3,15 @@
   "WorkspaceRootPath": "C:\\Users\\Test\\source\\repos\\TaskManagementSystem\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BF2996B7-873D-4C82-88E6-69E188EBCAB6}|TaskManagementSystem\\TaskManagementSystem.csproj|C:\\Users\\Test\\source\\repos\\TaskManagementSystem\\taskmanagementsystem\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BF2996B7-873D-4C82-88E6-69E188EBCAB6}|TaskManagementSystem\\TaskManagementSystem.csproj|solutionrelative:taskmanagementsystem\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{BF2996B7-873D-4C82-88E6-69E188EBCAB6}|TaskManagementSystem\\TaskManagementSystem.csproj|C:\\Users\\Test\\source\\repos\\TaskManagementSystem\\taskmanagementsystem\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BF2996B7-873D-4C82-88E6-69E188EBCAB6}|TaskManagementSystem\\TaskManagementSystem.csproj|solutionrelative:taskmanagementsystem\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BF2996B7-873D-4C82-88E6-69E188EBCAB6}|TaskManagementSystem\\TaskManagementSystem.csproj|c:\\users\\test\\source\\repos\\taskmanagementsystem\\taskmanagementsystem\\dataaccess\\taskrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{BF2996B7-873D-4C82-88E6-69E188EBCAB6}|TaskManagementSystem\\TaskManagementSystem.csproj|c:\\users\\test\\source\\repos\\taskmanagementsystem\\taskmanagementsystem\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BF2996B7-873D-4C82-88E6-69E188EBCAB6}|TaskManagementSystem\\TaskManagementSystem.csproj|solutionrelative:taskmanagementsystem\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BF2996B7-873D-4C82-88E6-69E188EBCAB6}|TaskManagementSystem\\TaskManagementSystem.csproj|C:\\Users\\Test\\source\\repos\\TaskManagementSystem\\taskmanagementsystem\\dataaccess\\taskrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BF2996B7-873D-4C82-88E6-69E188EBCAB6}|TaskManagementSystem\\TaskManagementSystem.csproj|solutionrelative:taskmanagementsystem\\dataaccess\\taskrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -62,21 +62,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Form1.cs",
-              "DocumentMoniker": "C:\\Users\\Test\\source\\repos\\TaskManagementSystem\\TaskManagementSystem\\Form1.cs",
-              "RelativeDocumentMoniker": "TaskManagementSystem\\Form1.cs",
-              "ToolTip": "C:\\Users\\Test\\source\\repos\\TaskManagementSystem\\TaskManagementSystem\\Form1.cs",
-              "RelativeToolTip": "TaskManagementSystem\\Form1.cs",
-              "ViewState": "AgIAAMMAAAAAAAAAAAAAANQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-26T16:41:36.963Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -100,7 +87,8 @@
               "RelativeToolTip": "TaskManagementSystem\\Models\\TaskViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-28T11:02:09.854Z"
+              "WhenOpened": "2024-09-28T11:02:09.854Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -112,7 +100,8 @@
               "RelativeToolTip": "TaskManagementSystem\\DataAccess\\AppDbContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-25T16:27:09.852Z"
+              "WhenOpened": "2024-09-25T16:27:09.852Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -124,19 +113,33 @@
               "RelativeToolTip": "TaskManagementSystem\\Migrations\\Configuration.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAAswBoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T19:06:48.741Z"
+              "WhenOpened": "2024-10-02T19:06:48.741Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Form1.Designer.cs",
               "DocumentMoniker": "C:\\Users\\Test\\source\\repos\\TaskManagementSystem\\TaskManagementSystem\\Form1.Designer.cs",
               "RelativeDocumentMoniker": "TaskManagementSystem\\Form1.Designer.cs",
               "ToolTip": "C:\\Users\\Test\\source\\repos\\TaskManagementSystem\\TaskManagementSystem\\Form1.Designer.cs",
               "RelativeToolTip": "TaskManagementSystem\\Form1.Designer.cs",
-              "ViewState": "AgIAALkAAAAAAAAAAAAuwMgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAANgAAAAAAAAAAAAAAOkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-04T08:14:33.102Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "C:\\Users\\Test\\source\\repos\\TaskManagementSystem\\TaskManagementSystem\\Form1.cs",
+              "RelativeDocumentMoniker": "TaskManagementSystem\\Form1.cs",
+              "ToolTip": "C:\\Users\\Test\\source\\repos\\TaskManagementSystem\\TaskManagementSystem\\Form1.cs",
+              "RelativeToolTip": "TaskManagementSystem\\Form1.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAawM8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-26T16:41:36.963Z",
               "EditorCaption": ""
             },
             {
@@ -149,7 +152,8 @@
               "RelativeToolTip": "TaskManagementSystem\\Models\\User.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-26T16:07:45.361Z"
+              "WhenOpened": "2024-09-26T16:07:45.361Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -161,7 +165,8 @@
               "RelativeToolTip": "TaskManagementSystem\\App.config",
               "ViewState": "AgIAABoAAAAAAAAAAAAqwCMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2024-09-26T16:02:51.892Z"
+              "WhenOpened": "2024-09-26T16:02:51.892Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -173,7 +178,8 @@
               "RelativeToolTip": "TaskManagementSystem\\DataAccess\\UserRepository.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAAASwBEAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-25T16:26:37.838Z"
+              "WhenOpened": "2024-09-25T16:26:37.838Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -185,7 +191,8 @@
               "RelativeToolTip": "TaskManagementSystem\\Models\\PlaceholderTextBox.cs",
               "ViewState": "AgIAADgAAAAAAAAAAAAAAEUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-03T16:36:10.645Z"
+              "WhenOpened": "2024-10-03T16:36:10.645Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -197,7 +204,8 @@
               "RelativeToolTip": "TaskManagementSystem\\Models\\Task.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-26T16:08:20.125Z"
+              "WhenOpened": "2024-09-26T16:08:20.125Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -209,7 +217,8 @@
               "RelativeToolTip": "TaskManagementSystem\\Migrations\\202410021911011_InitialCreate1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T19:11:05.385Z"
+              "WhenOpened": "2024-10-02T19:11:05.385Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -221,7 +230,8 @@
               "RelativeToolTip": "TaskManagementSystem\\Migrations\\202410021908125_InitialCreate.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T19:08:18.372Z"
+              "WhenOpened": "2024-10-02T19:08:18.372Z",
+              "EditorCaption": ""
             }
           ]
         }

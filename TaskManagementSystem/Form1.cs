@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Windows.Forms;
 using TaskManagementSystem.DataAccess;
 using TaskManagementSystem.Models;
@@ -21,6 +23,7 @@ namespace TaskManagementSystem
             _userRepository = new UserRepository();
             LoadUsers();
             LoadTasks();
+            labelZurichTime.Text = GetZurichTime();
         }
 
         // Lädt alle Aufgaben aus der Datenbank und zeigt sie im DataGridView an
@@ -39,38 +42,7 @@ namespace TaskManagementSystem
             comboBoxUsers.ValueMember = "Id";
         }
 
-        // Methode zum Hinzufügen eines neuen Benutzers
-        private void buttonAddUser_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(textBoxNewUser.Text) && textBoxNewUser.Text != "Neuen Benutzer eingeben")
-            {
-                User newUser = new User { UserName = textBoxNewUser.Text };
-                _userRepository.AddUser(newUser);
-                LoadUsers();
-                textBoxNewUser.Text = "Neuen Benutzer eingeben";  // Textbox zurücksetzen
-            }
-            else
-            {
-                MessageBox.Show("Bitte geben Sie einen gültigen Benutzernamen ein.");
-            }
-        }
-
-        // Methode zum Löschen eines Benutzers
-        private void buttonDeleteUser_Click(object sender, EventArgs e)
-        {
-            if (comboBoxUsers.SelectedValue != null)
-            {
-                int selectedUserId = (int)comboBoxUsers.SelectedValue;
-                _userRepository.DeleteUser(selectedUserId);
-                LoadUsers();
-            }
-            else
-            {
-                MessageBox.Show("Bitte wählen Sie einen Benutzer zum Löschen aus.");
-            }
-        }
-
-        // Methode zum Erstellen einer neuen Aufgabe
+        // Event-Handler-Methode für das Erstellen einer Aufgabe
         private void buttonCreate_Click(object sender, EventArgs e)
         {
             if (comboBoxUsers.SelectedValue != null)
@@ -86,8 +58,15 @@ namespace TaskManagementSystem
                     UserId = selectedUserId
                 };
 
-                _taskRepository.AddTask(task);
-                LoadTasks();  // Aktualisiere die Liste nach dem Hinzufügen
+                try
+                {
+                    _taskRepository.AddTask(task);
+                    LoadTasks();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Fehler beim Hinzufügen der Aufgabe: {ex.Message}");
+                }
             }
             else
             {
@@ -95,7 +74,6 @@ namespace TaskManagementSystem
             }
         }
 
-        // Methode zum Aktualisieren einer bestehenden Aufgabe
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
             if (dataGridViewTasks.SelectedRows.Count > 0 && comboBoxUsers.SelectedValue != null)
@@ -107,8 +85,15 @@ namespace TaskManagementSystem
                 task.Description = textBoxDescription.Text;
                 task.UserId = (int)comboBoxUsers.SelectedValue;
 
-                _taskRepository.UpdateTask(task);
-                LoadTasks();  // Aktualisiert die Liste nach dem Ändern
+                try
+                {
+                    _taskRepository.UpdateTask(task);
+                    LoadTasks();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Fehler beim Ändern der Aufgabe: {ex.Message}");
+                }
             }
             else
             {
@@ -116,14 +101,20 @@ namespace TaskManagementSystem
             }
         }
 
-        // Methode zum Löschen einer bestehenden Aufgabe
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             if (dataGridViewTasks.SelectedRows.Count > 0)
             {
                 int taskId = Convert.ToInt32(dataGridViewTasks.SelectedRows[0].Cells["Id"].Value);
-                _taskRepository.DeleteTask(taskId);
-                LoadTasks();  // Aktualisiert die Liste nach dem Löschen
+                try
+                {
+                    _taskRepository.DeleteTask(taskId);
+                    LoadTasks();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Fehler beim Löschen der Aufgabe: {ex.Message}");
+                }
             }
             else
             {
@@ -131,81 +122,85 @@ namespace TaskManagementSystem
             }
         }
 
-        // Event-Methode, um Text aus den Textboxen zu entfernen, wenn der Benutzer sie anklickt
-        private void TextBox_Enter(object sender, EventArgs e)
+        private void buttonAddUser_Click(object sender, EventArgs e)
         {
-            TextBox tb = sender as TextBox;
-            if (tb != null && tb.ForeColor == System.Drawing.Color.Gray)
+            if (!string.IsNullOrWhiteSpace(textBoxNewUser.Text))
             {
-                tb.Text = "";
-                tb.ForeColor = System.Drawing.Color.Black;
+                User newUser = new User { UserName = textBoxNewUser.Text };
+                _userRepository.AddUser(newUser);
+                LoadUsers();
+            }
+            else
+            {
+                MessageBox.Show("Bitte geben Sie einen Benutzernamen ein.");
             }
         }
 
-        // Event-Methode, um Platzhaltertext wieder anzuzeigen, wenn die Textbox leer bleibt
-        private void TextBox_Leave(object sender, EventArgs e)
+        private void buttonDeleteUser_Click(object sender, EventArgs e)
         {
-            TextBox tb = sender as TextBox;
-            if (tb != null && string.IsNullOrEmpty(tb.Text))
+            if (comboBoxUsers.SelectedValue != null)
             {
-                if (tb == textBoxTitle) tb.Text = "Titel eingeben";
-                else if (tb == textBoxDescription) tb.Text = "Beschreibung eingeben";
-                else if (tb == textBoxNewUser) tb.Text = "Neuen Benutzer eingeben";
-
-                tb.ForeColor = System.Drawing.Color.Gray;
+                int userId = (int)comboBoxUsers.SelectedValue;
+                try
+                {
+                    _userRepository.DeleteUser(userId);
+                    LoadUsers();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Fehler beim Löschen des Benutzers: {ex.Message}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Bitte wählen Sie einen Benutzer aus.");
             }
         }
 
-        // Methode zum Exportieren der Aufgaben in eine CSV-Datei
         private void buttonExportCSV_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "CSV files (*.csv)|*.csv";
-            saveFileDialog.Title = "Speicherort für CSV-Datei auswählen";
+            saveFileDialog.Title = "CSV Datei speichern";
+
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
+                var tasks = _taskRepository.GetTaskViewModels();
                 using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName))
                 {
                     writer.WriteLine("Id,Title,Description,CreateDate,IsCompleted,UserId,UserName");
-                    foreach (TaskViewModel task in (List<TaskViewModel>)dataGridViewTasks.DataSource)
+                    foreach (var task in tasks)
                     {
                         writer.WriteLine($"{task.Id},{task.Title},{task.Description},{task.CreateDate},{task.IsCompleted},{task.UserId},{task.UserName}");
                     }
                 }
-                MessageBox.Show("CSV-Datei erfolgreich exportiert.");
             }
         }
 
-        // Methode zum Importieren von Aufgaben aus einer CSV-Datei
-        private void buttonImportCSV_Click(object sender, EventArgs e)
+        private string GetZurichTime()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "CSV files (*.csv)|*.csv";
-            openFileDialog.Title = "CSV-Datei zum Importieren auswählen";
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            // Placeholder: Hier müsste eine API-Abfrage für die aktuelle Zeit von Zürich implementiert werden
+            return DateTime.UtcNow.AddHours(2).ToString("HH:mm:ss");  // Beispiel: UTC + 2 Stunden
+        }
+
+        // Event-Handler für TextBox-Enter und Leave
+        private void TextBox_Enter(object sender, EventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            if (tb != null && tb.Text == tb.Tag.ToString())
             {
-                using (StreamReader reader = new StreamReader(openFileDialog.FileName))
-                {
-                    reader.ReadLine();  // Überspringe die Header-Zeile
-                    while (!reader.EndOfStream)
-                    {
-                        var line = reader.ReadLine();
-                        var values = line.Split(',');
+                tb.Text = "";
+                tb.ForeColor = Color.Black;
+            }
+        }
 
-                        Task task = new Task
-                        {
-                            Title = values[1],
-                            Description = values[2],
-                            CreateDate = DateTime.Parse(values[3]),
-                            IsCompleted = bool.Parse(values[4]),
-                            UserId = int.Parse(values[5])
-                        };
-
-                        _taskRepository.AddTask(task);
-                    }
-                }
-                LoadTasks();
-                MessageBox.Show("CSV-Datei erfolgreich importiert.");
+        private void TextBox_Leave(object sender, EventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            if (tb != null && string.IsNullOrWhiteSpace(tb.Text))
+            {
+                tb.Text = tb.Tag.ToString();
+                tb.ForeColor = Color.Gray;
             }
         }
     }
