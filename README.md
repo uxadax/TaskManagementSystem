@@ -133,5 +133,4 @@ Dieses Projekt steht unter der **MIT-Lizenz**. Weitere Informationen findest du 
  
 ## 🤝 Beitrag
 Beiträge zum Projekt sind willkommen! Erstelle einfach einen Pull-Request oder öffne ein Issue, um Verbesserungen und Fehler zu diskutieren.
- 
-```
+
