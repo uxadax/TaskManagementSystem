@@ -95,7 +95,7 @@ Um Aufgaben aus einer CSV-Datei zu importieren:
 ## 💻 Beispiel-CSV-Datei
 Die CSV-Datei wird folgendes Format haben:
  
-```csv
+```(csv)
 Id,Title,Description,CreateDate,IsCompleted,UserId,UserName
 1, "Projekt erstellen", "Task Management System erstellen", "2024-10-01", false, 1, "Max Mustermann"
 2, "Dokumentation schreiben", "README für das Projekt erstellen", "2024-10-02", true, 1, "Max Mustermann"
@@ -105,11 +105,11 @@ Id,Title,Description,CreateDate,IsCompleted,UserId,UserName
 Falls die Anwendung Fehler wie `User enthält keine Definition für 'Name'` anzeigt:
  
 1. Überprüfe die Datei `User.cs` im Ordner `Models` und stelle sicher, dass die Eigenschaft `Name` vorhanden ist:
-    ```csharp
+    ```(csharp)
     public string Name { get; set; }
     ```
 2. Falls die Datenbankfehler auftreten, stelle sicher, dass alle Migrationen korrekt angewendet wurden:
-    ```bash
+    ```(bash)
     Update-Database
     ```
  
