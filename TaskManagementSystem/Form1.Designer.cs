@@ -108,7 +108,6 @@
             this.buttonCreate.TabIndex = 5;
             this.buttonCreate.Text = "Erstellen";
             this.buttonCreate.UseVisualStyleBackColor = true;
-            this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
 
             // 
             // buttonUpdate
@@ -119,7 +118,6 @@
             this.buttonUpdate.TabIndex = 6;
             this.buttonUpdate.Text = "Ändern";
             this.buttonUpdate.UseVisualStyleBackColor = true;
-            this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
 
             // 
             // buttonDelete
@@ -130,7 +128,6 @@
             this.buttonDelete.TabIndex = 7;
             this.buttonDelete.Text = "Löschen";
             this.buttonDelete.UseVisualStyleBackColor = true;
-            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
 
             // 
             // buttonCSVExport
@@ -141,7 +138,6 @@
             this.buttonCSVExport.TabIndex = 10;
             this.buttonCSVExport.Text = "CSV Export";
             this.buttonCSVExport.UseVisualStyleBackColor = true;
-            this.buttonCSVExport.Click += new System.EventHandler(this.buttonCSVExport_Click);
 
             // 
             // buttonCSVImport
@@ -152,13 +148,12 @@
             this.buttonCSVImport.TabIndex = 11;
             this.buttonCSVImport.Text = "CSV Import";
             this.buttonCSVImport.UseVisualStyleBackColor = true;
-            this.buttonCSVImport.Click += new System.EventHandler(this.buttonCSVImport_Click);
 
             // 
             // labelZurichTime
             // 
             this.labelZurichTime.AutoSize = true;
-            this.labelZurichTime.Location = new System.Drawing.Point(12, 250);
+            this.labelZurichTime.Location = new System.Drawing.Point(350, 250);  // Position in die Mitte setzen
             this.labelZurichTime.Name = "labelZurichTime";
             this.labelZurichTime.Size = new System.Drawing.Size(70, 13);
             this.labelZurichTime.TabIndex = 12;
