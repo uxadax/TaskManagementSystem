@@ -48,13 +48,15 @@ TaskManagementSystem/
 ├── App.config                   # Konfigurationsdatei mit Verbindungseinstellungen
 ├── Program.cs                   # Einstiegspunkt der Anwendung
 └── README.md                    # Projektdokumentation
+```
 ## 🛠️ Voraussetzungen
 - **.NET Framework 4.8** oder höher
 - **SQL Server Express** oder eine andere SQL Server-Instanz
- 
+ ```
+```
 ## ⚙️ Konfiguration
 1. Öffne die Datei `App.config` und stelle sicher, dass die Verbindungszeichenfolge korrekt konfiguriert ist:
-    ```xml
+    ```(xml)
 <connectionStrings>
 <add name="TaskManagementDB"
            connectionString="Server=DESKTOP-QDJ0VMJ\SQLEXPRESS;Database=TaskManagementDB;Trusted_Connection=True;"
@@ -63,38 +65,37 @@ TaskManagementSystem/
     ```
  
 2. Führe die Migrationen in der `Package Manager Console` von Visual Studio aus:
-    ```bash
+    ```(bash)
     Enable-Migrations
     Add-Migration InitialCreate
     Update-Database
-    ```
- 
+     ```
 ## 🚀 Installation und Ausführung
 1. **Projekt klonen:**
-    ```bash
+    ```(bash)
     git clone https://github.com/uxadax/TaskManagementSystem.git
-    ```
+  ```
 2. **Projekt öffnen:** Starte das Projekt in Visual Studio.
 3. **Migration anwenden:** Stelle sicher, dass die Datenbank migriert ist (`Update-Database`).
 4. **Anwendung starten:** Drücke `F5` oder klicke auf `Start`.
- 
+ ```
 ## 📤 CSV-Export
 Um die Aufgabenliste als CSV zu exportieren:
- 
+ ```
 1. Klicke auf den Button **"CSV Export"**.
 2. Wähle den Speicherort und den Dateinamen.
 3. Die Aufgabenliste wird als CSV-Datei gespeichert.
- 
+ ```
 ## 📥 CSV-Import
 Um Aufgaben aus einer CSV-Datei zu importieren:
- 
+ ```
 1. Klicke auf den Button **"CSV Import"**.
 2. Wähle die gewünschte CSV-Datei aus.
 3. Die Aufgabenliste wird entsprechend aktualisiert.
- 
+ ```
 ## 💻 Beispiel-CSV-Datei
 Die CSV-Datei wird folgendes Format haben:
- 
+ ```
 ```(csv)
 Id,Title,Description,CreateDate,IsCompleted,UserId,UserName
 1, "Projekt erstellen", "Task Management System erstellen", "2024-10-01", false, 1, "Max Mustermann"
