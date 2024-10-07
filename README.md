@@ -1,4 +1,3 @@
-```markdown
 # 📝 Task Management System
  
 Eine einfache Windows Forms-Anwendung zur Verwaltung von Aufgaben (Tasks) und Benutzern. Mit dieser Anwendung kannst du neue Aufgaben erstellen, bestehende Aufgaben bearbeiten oder löschen sowie Benutzer verwalten. Außerdem bietet die Anwendung eine CSV-Exportfunktion für alle Aufgaben.
@@ -29,7 +28,7 @@ Die Anwendung bietet folgende Hauptbereiche:
 - **📤 Export-Button**: Schaltfläche zum Exportieren der Aufgabenliste als CSV-Datei.
  
 ## 📂 Projektstruktur
-```plaintext
+```
 TaskManagementSystem/
 ├── DataAccess/
 │   ├── AppDbContext.cs          # Datenbankkontext für Entity Framework
@@ -49,8 +48,6 @@ TaskManagementSystem/
 ├── App.config                   # Konfigurationsdatei mit Verbindungseinstellungen
 ├── Program.cs                   # Einstiegspunkt der Anwendung
 └── README.md                    # Projektdokumentation
-```
- 
 ## 🛠️ Voraussetzungen
 - **.NET Framework 4.8** oder höher
 - **SQL Server Express** oder eine andere SQL Server-Instanz
