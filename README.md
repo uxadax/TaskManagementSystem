@@ -129,9 +129,6 @@ Die Anwendung verwendet verschiedene Masken für die Verwaltung von Aufgaben und
   - CSV Export: Exportiert die Aufgaben in eine CSV-Datei.
   - CSV Import: Importiert Aufgaben aus einer CSV-Datei.
  
-## 📝 Lizenz
-Dieses Projekt steht unter der **MIT-Lizenz**. Weitere Informationen findest du in der `LICENSE`-Datei.
- 
 ## 🤝 Beitrag
 Beiträge zum Projekt sind willkommen! Erstelle einfach einen Pull-Request oder öffne ein Issue, um Verbesserungen und Fehler zu diskutieren.
 
