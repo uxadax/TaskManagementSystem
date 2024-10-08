@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using TaskManagementSystem.Models;
 using TaskManagementSystem.DataAccess;
 using Newtonsoft.Json;
+using System.Timers;
 
 using TaskModel = TaskManagementSystem.Models.Task;
 
@@ -14,15 +15,40 @@ namespace TaskManagementSystem
     {
         private TaskRepository _taskRepository;
         private UserRepository _userRepository;
+        private System.Timers.Timer _timer;  // Timer für die Aktualisierung der Uhrzeit
 
         public Form1()
         {
-            InitializeComponent();  // Ruft die Methode aus `Form1.Designer.cs` auf
+            InitializeComponent();
             _taskRepository = new TaskRepository();
             _userRepository = new UserRepository();
             LoadUsers();
             LoadTasks();
-            UpdateZurichTime();
+            StartTimerForTimeUpdate();  // Timer starten
+        }
+
+        // Methode zum Starten des Timers
+        private void StartTimerForTimeUpdate()
+        {
+            _timer = new System.Timers.Timer(1000); // Aktualisierung alle 1 Sekunde (1000 Millisekunden)
+            _timer.Elapsed += TimerElapsedHandler;
+            _timer.AutoReset = true;
+            _timer.Enabled = true;
+            UpdateZurichTime();  // Uhrzeit initial aktualisieren
+        }
+
+        // Ereignis-Handler für den Timer
+        private void TimerElapsedHandler(Object source, ElapsedEventArgs e)
+        {
+            // Invoke verwendet, um sicherzustellen, dass das Label im richtigen Thread aktualisiert wird
+            if (labelZurichTime.InvokeRequired)
+            {
+                labelZurichTime.Invoke(new Action(() => UpdateZurichTime()));
+            }
+            else
+            {
+                UpdateZurichTime();
+            }
         }
 
         private void LoadTasks()
@@ -37,11 +63,10 @@ namespace TaskManagementSystem
             comboBoxUsers.DisplayMember = "UserName";
             comboBoxUsers.ValueMember = "Id";
 
-            // Überprüfen, ob Benutzer vorhanden sind, ansonsten Textfeld leeren
             if (users.Count == 0)
             {
-                comboBoxUsers.Text = "";      // Text in der ComboBox leeren
-                comboBoxUsers.SelectedIndex = -1; // Auswahl auf "keine" setzen
+                comboBoxUsers.Text = "";
+                comboBoxUsers.SelectedIndex = -1;
             }
         }
 
@@ -115,10 +140,9 @@ namespace TaskManagementSystem
                 _userRepository.DeleteUser(selectedUser);
                 LoadUsers();
 
-                // Überprüfen, ob nach dem Löschen keine Benutzer mehr vorhanden sind
                 if (comboBoxUsers.Items.Count == 0)
                 {
-                    comboBoxUsers.Text = ""; // Text in der ComboBox explizit leeren
+                    comboBoxUsers.Text = "";
                 }
             }
             else
@@ -159,7 +183,7 @@ namespace TaskManagementSystem
             {
                 using (var reader = new StreamReader(openFileDialog.FileName))
                 {
-                    reader.ReadLine(); // Header überspringen
+                    reader.ReadLine();
                     while (!reader.EndOfStream)
                     {
                         var line = reader.ReadLine();
@@ -193,7 +217,7 @@ namespace TaskManagementSystem
                     {
                         var json = await response.Content.ReadAsStringAsync();
                         dynamic jsonObj = JsonConvert.DeserializeObject(json);
-                        labelZurichTime.Text = jsonObj.datetime.ToString();
+                        labelZurichTime.Text = DateTime.Parse(jsonObj.datetime.ToString()).ToString("HH:mm:ss");
                     }
                     else
                     {
