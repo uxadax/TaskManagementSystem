@@ -13,31 +13,36 @@ namespace TaskManagementSystem.DataAccess
             _context = new AppDbContext();
         }
 
+        // Methode zum Abrufen aller Tasks
         public List<Task> GetTasks()
         {
             return _context.Tasks.ToList();
         }
 
+        // Methode zum Hinzufügen einer neuen Task
         public void AddTask(Task task)
         {
             _context.Tasks.Add(task);
             _context.SaveChanges();
         }
 
+        // Methode zum Aktualisieren einer bestehenden Task
         public void UpdateTask(Task task)
         {
-            var existingTask = _context.Tasks.Find(task.Id);
+            // Überprüfen, ob die Task vorhanden ist
+            var existingTask = _context.Tasks.SingleOrDefault(t => t.Id == task.Id);
             if (existingTask != null)
             {
-                _context.Entry(existingTask).CurrentValues.SetValues(task);
+                _context.Entry(existingTask).CurrentValues.SetValues(task);  // Werte aktualisieren
                 _context.SaveChanges();
             }
         }
 
-        // Verwenden Sie die Task-Instanz und nicht die ID für das Löschen.
+        // Methode zum Löschen einer Task
         public void DeleteTask(Task task)
         {
-            var existingTask = _context.Tasks.Find(task.Id);
+            // Lade die Task aus der Datenbank, um den aktuellen Zustand sicherzustellen
+            var existingTask = _context.Tasks.SingleOrDefault(t => t.Id == task.Id);
             if (existingTask != null)
             {
                 _context.Tasks.Remove(existingTask);
