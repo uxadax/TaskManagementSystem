@@ -183,7 +183,7 @@ namespace TaskManagementSystem
             {
                 using (var reader = new StreamReader(openFileDialog.FileName))
                 {
-                    reader.ReadLine();
+                    reader.ReadLine(); // Header überspringen
                     while (!reader.EndOfStream)
                     {
                         var line = reader.ReadLine();

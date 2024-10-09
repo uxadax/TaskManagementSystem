@@ -108,6 +108,8 @@
             this.buttonCreate.TabIndex = 5;
             this.buttonCreate.Text = "Erstellen";
             this.buttonCreate.UseVisualStyleBackColor = true;
+            this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click); // Event-Zuordnung
+
 
             // 
             // buttonUpdate
@@ -118,6 +120,7 @@
             this.buttonUpdate.TabIndex = 6;
             this.buttonUpdate.Text = "Ändern";
             this.buttonUpdate.UseVisualStyleBackColor = true;
+            this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click); // Event-Zuordnung
 
             // 
             // buttonDelete
@@ -128,6 +131,7 @@
             this.buttonDelete.TabIndex = 7;
             this.buttonDelete.Text = "Löschen";
             this.buttonDelete.UseVisualStyleBackColor = true;
+            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click); // Event-Zuordnung
 
             // 
             // buttonCSVExport
@@ -138,6 +142,7 @@
             this.buttonCSVExport.TabIndex = 10;
             this.buttonCSVExport.Text = "CSV Export";
             this.buttonCSVExport.UseVisualStyleBackColor = true;
+            this.buttonCSVExport.Click += new System.EventHandler(this.buttonCSVExport_Click); // Event-Zuordnung
 
             // 
             // buttonCSVImport
@@ -148,6 +153,8 @@
             this.buttonCSVImport.TabIndex = 11;
             this.buttonCSVImport.Text = "CSV Import";
             this.buttonCSVImport.UseVisualStyleBackColor = true;
+            this.buttonCSVImport.Click += new System.EventHandler(this.buttonCSVImport_Click); // Event-Zuordnung
+
 
             // 
             // labelZurichTime
