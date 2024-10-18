@@ -1,4 +1,4 @@
- ```markdown
+
 # 📊 Zustände der Masken (Mask State Planning)
  
 Diese Übersicht beschreibt die Zustände und Übergänge der verschiedenen Masken (UI-Formulare) im Task Management System. Jeder Zustand repräsentiert eine spezifische Ansicht oder Interaktion im UI.
@@ -115,4 +115,3 @@ Diese Übersicht beschreibt die Zustände und Übergänge der verschiedenen Mask
  
 ## 📜 Lizenz
 Dieses Dokument ist unter der [MIT-Lizenz](https://opensource.org/licenses/MIT) lizenziert. Weitere Informationen finden Sie in der Datei `LICENSE`.
-```
